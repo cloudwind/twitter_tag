@@ -1,0 +1,22 @@
+class SearchController < ApplicationController
+def index
+end
+
+def user_tweet
+ require "rubygems"
+ require "twitter"
+  
+ client = Twitter::REST::Client.new do |config|
+  config.consumer_key        = "qD0yapbhte9uT2dBEDsrTsUzv"
+  config.consumer_secret     = "eTdTNkUa57OkNe1KEep3crQrmcblQDHfYFfInMy8JNQstKdfT6i"
+  config.access_token        = "373992248-7OFmo7IlwwvjkbIlLA222ypXU4n8uM4kDhuArHav"
+  config.access_token_secret = "o3MIQ7ld6cQ3Xf09DsPLMyglqFlUGf7ApyXXHEPqZdbaZ"
+ end
+ client.sample do |tweet|
+  puts tweet.text
+ end
+    # Post a status update
+#    client.update("I just posted a status update via the Twitter Ruby Gem !")
+#    redirect_to request.referer, :notice => 'Tweet successfully posted'
+#end
+end

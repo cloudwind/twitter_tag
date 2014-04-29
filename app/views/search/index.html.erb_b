@@ -1,0 +1,39 @@
+<h1>Search</h1>
+<%= form_tag '',:method => :get do %>
+ <%= text_field_tag 'q', params[:q], :size => 50 %>
+ <%= submit_tag 'Search' %>
+<% end %>
+
+<h1>Show Tweet For <%= @search %></h1>
+<table>
+ <% count = 0%>
+ <% if @tweets != "" %>
+ <% @tweets.each do |tweet| %>
+ <% if tweet %>
+  <tr>
+  <td>
+  <p>
+ <% count += 1 %>
+ <%= count %>
+   <image src="<%= tweet.user.profile_image_url %>" class="top pull-1 left" height="    48" width="48"/>
+   <%= tweet.text.to_s.gsub(/[\u1F60-\u1F64]|[\u2702-\u27B0]|[\u1F68-\u1F6C]|[\u1F30-\u1F70][\u2600-\u26ff]/, '') %><br>
+   
+   <small>
+   <%= time_ago_in_words(tweet.created_at) + ' ago' %>
+  By <%= link_to tweet.user.screen_name, "http://twitter.com/#{tweet.user.screen_name}"     %>
+  
+ 
+    <%= link_to 'View', "http://twitter.com/#{tweet.user.screen_name}/statuses/#{tweet.id}" %>
+  </small>
+ <% if tweet.media? %>
+<br>
+<image src="<%= tweet.media[0].media_url %>" class="top pull-1 left"/>
+ <br>
+ <% end %>
+  </p>
+  </td>
+  </tr>
+ <% end %>
+ <% end %> 
+ <% end %>
+</table>

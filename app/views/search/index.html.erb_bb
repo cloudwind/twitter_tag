@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<head>
+
+	    <meta charset="utf-8">
+	    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+	    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	    <meta name="description" content="">
+	    <meta name="author" content="">
+	    <link rel="shortcut icon">
+        <%= stylesheet_link_tag "main", "bootstrap" %>
+        <%= javascript_include_tag "jquery" %>
+		<script>
+		$(document).ready(function()
+		{
+			OnLoad()
+
+			$("#Searchbox").focus()
+			$(".show-hide-btn").click(function(){		
+				$("#filter-bar").toggle("Normal")
+				$("#plus-btn").toggle()
+				$("#minus-btn").toggle()
+			})
+
+			$("#removesearch").click(function()
+			{	
+				$("#Searchbox").focus()
+				$("#Searchbox").val("")
+			})
+		})
+
+		function OnLoad()
+		{
+			$("#plus-btn").hide()
+		}
+		</script>
+
+	</head>
+	<body>
+			<nav class="navbar navbar-default" role="navigation" style="background-color:#2A7F86;border-color:#1B8DD0">
+			  <div class="container-fluid">
+			    <!-- Brand and toggle get grouped for better mobile display -->
+			    <div class="navbar-header">
+			      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+			        <span class="sr-only">Toggle navigation</span>
+			        <span class="icon-bar"></span>
+			        <span class="icon-bar"></span>
+			        <span class="icon-bar"></span>
+			      </button>
+			    </div>
+
+			    <!-- Collect the nav links, forms, and other content for toggling -->
+			    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+		
+			      <ul class="nav navbar-nav navbar-right" style="margin-right:5%">
+
+				      <form class="navbar-form navbar-left" role="search" style="margin-top:5px;margin-bottom:5px;width:500px !important;">
+				        <div>
+				        	<a class="search-link" href=""><span class="rightsearch glyphicon glyphicon-search"></span></a>
+				        	<span class="removesearch glyphicon glyphicon-remove-circle" id="removesearch"></span>
+				        	<input type="text" id="Searchbox" class="roundsearch" placeholder="Type Search #Tag">
+				          	<div class="leftsearch"></div>
+				        </div>
+				      </form>
+			      </ul>
+			    </div><!-- /.navbar-collapse -->
+			  </div><!-- /.container-fluid -->
+			</nav>
+			<div class="container" style="">
+				<div class="well" style="min-height:80px;background-color: #E8FBFF;border-radius:10px">
+
+					<div class="right-side show-hide-btn" id="plus-btn"><span class="glyphicon glyphicon-plus"></span></div>
+					<div class="right-side show-hide-btn" id="minus-btn"><span class="glyphicon glyphicon-minus"></span></div>
+
+					<h1 style="font-family:'century gothic'">Filter Option</h1>
+					<div id="filter-bar" class="filter-bar">
+						<form class="form-group">
+							<input type="checkbox" class="radio-lg"> Message <br>
+							<input type="checkbox" class="radio-lg"> Photo <br>
+							<input type="checkbox" class="radio-lg"> Video <br>
+						</form>
+
+					</div>
+
+				</div>
+			</div>
+
+			<div class="container" id="column">
+
+
+				<!-- 1 Tab -->
+<% if @tweets != "" %>
+<% @tweets.each do |tweet| %>
+				<div class="messagebox">
+					<div class="header">
+						<img class="avartar" src=<%= tweet.user.profile_image_url %> >
+						<span class="header-text"><%= link_to tweet.user.screen_name, "http://twitter.com/#{tweet.user.screen_name}" %></span>
+						<div class="right-side font10"><%= time_ago_in_words(tweet.created_at)%> ago</div>
+					</div>
+					<hr class="header-line">
+					<div class="data">
+                        <% if tweet.media? %>
+						<div class="media">
+							<img class="img-content" src="<%=tweet.media[0].media_url %>">
+						</div>
+                        <%end%>
+
+						<div class="text">
+							<%= tweet.text%>
+                            <%= link_to 'View', "http://twitter.com/#{tweet.user.screen_name}/statuses/#{tweet.id}",:target => "_blank" %>
+						</div>
+					</div>
+				</div>
+<%end%>
+<%end%>
+
+
+			</div>
+	</body>
+</html>
